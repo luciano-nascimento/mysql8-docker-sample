@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+
+  db:
+    container_name: mysql-lab-db
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lab-database
+    volumes:
+      - ./.docker/mysql/conf.d/my.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./.docker/mysql/data:/var/lib/mysql:rw
+      #- ./.docker/mysql:/docker-entrypoint-initdb.d
+    ports:
+      - "33060:3306"  
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
